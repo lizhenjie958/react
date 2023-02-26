@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>函数式组件</title>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="test"></div>
+    <!-- 引入依赖 ,引入的时候，必须就按照这个步骤-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <!--这里使用了babel用来解析jsx语法-->
+    <script type="text/babel">
+        // 创建类式组件
+        class WeatherComponent extends React.Component{
+            state = {isHot:false,wind:"微风"};
+
+            render(){
+                const {isHot,wind} = this.state;
+                return <h1 onClick={this.changeWeather}>今天天气很{isHot ? "炎热" : "凉爽"},{wind}</h1>
+            }
+
+            // 自定义方法----要用赋值语句的形式的箭头函数
+            changeWeather = ()=>{
+                // 此处的this是组件对象
+                console.log("changeWeather",this)
+                const {isHot} = this.state;
+                this.setState({
+                    isHot : !isHot
+                })
+            }
+        }
+        
+        // 渲染组件到页面
+        ReactDOM.render(<WeatherComponent/>,document.getElementById("test"))
+         
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>高阶函数_函数柯里化</title>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="test"></div>
+    <!-- 引入依赖 ,引入的时候，必须就按照这个步骤-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        // 创建组件
+        class Login extends React.Component{
+            // 不适用柯里化，直接定义函数
+            state = {
+                username:"",
+                password:""
+            }
+
+            saveFormData = (dataType,event)=>{
+                this.setState({
+                    [dataType]:event.target.value
+                }) 
+            }
+
+            hanleSubmit = (event)=>{
+                const {username, password} = this.state;
+                alert(`输入的用户名是：${username}，输入的密码是： ${password}`)
+            }
+
+            render(){
+                return (
+                    <form  onSubmit={this.hanleSubmit}>
+                            用户名：<input onChange={event => this.saveFormData("username",event)} type="text" name="username"/>
+                            密码：<input onChange={event => this.saveFormData("password",event)} type="password" name="password"/>
+                            <button>登录</button>
+                    </form>
+                )
+            }
+        }
+
+        ReactDOM.render(<Login/>,document.getElementById("test"))
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>函数式组件</title>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="test"></div>
+    <!-- 引入依赖 ,引入的时候，必须就按照这个步骤-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <!--这里使用了babel用来解析jsx语法-->
+    <script type="text/babel">
+        // 创建类式组件
+        class WeatherComponent extends React.Component{
+            // 构造器，执行了一次
+            constructor(props){
+                console.log("constructor")
+                // super 必须写
+                super(props);
+                this.state = {isHot:false,wind:"微风"};
+                // 以下代码使得，实例对象上自身多一个changeWeather对应，bind()范围的是一个新的函数 
+                // 解决this指向问题
+                this.changeWeather = this.changeWeather.bind(this);
+            }
+
+            // render 调用了1 + n次， n为状态更新的次数
+            render(){
+                console.log("this#render",this)
+                const {isHot,wind} = this.state;
+                return <h1 onClick={this.changeWeather}>今天天气很{isHot ? "炎热" : "凉爽"},{wind}</h1>
+            }
+
+            // changeWeather 调用次数 n次，n为状态更新的次数
+            changeWeather(){
+                // changeWeather 放在这里？ —— weather的原型对象上，供实例使用
+                // 通过weather实例调用changeWeather时，changeWeather中的this就是WeatherComponent实例
+                // this.changeWeather 由于changeWeather是作为onClickde的回调，所以不是通过实例调用的，是直接调用，this是window对应，类中的方法默认开启了局部的严格模式，所以changeWeather中的this为undifined
+                console.log("changeWeather",this)      
+                // console.log(this.state.isHot)
+                // this.state.isHot = !this.state.isHot; // 错误的写法
+
+                // 严重注意，状态不可以直接更改，要借助内部的api,setState, 且更新是一种合并，不是替换
+                const {isHot} = this.state;
+                this.setState({
+                    isHot : !isHot
+                })
+            }
+        }
+        
+        // 渲染组件到页面
+        ReactDOM.render(<WeatherComponent/>,document.getElementById("test"))
+
+
+        function demo(){
+            // babel 禁止指定自定义的函数指向window，此处this是undefined，由于开启了严格模式："use strict"
+            console.log("this#demo",this)
+            console.log("标题被点击了！！！")
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>函数式组件</title>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="test"></div>
+    <!-- 引入依赖 ,引入的时候，必须就按照这个步骤-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <!--这里使用了babel用来解析jsx语法-->
+    <script type="text/babel">
+        // 创建类式组件
+        class MyComponent extends React.Component{
+            render(){
+                //render是放在原型对象上的，供实例对象使用
+                //render的this，MyComponent的实例对象【组件实例对象】
+                console.log("this",this)
+                return <h2>我是用类定义的组件(使用于【复杂组件】的定义)</h2>
+            }
+        }
+        // 渲染组件到页面
+        ReactDOM.render(<MyComponent/>,document.getElementById("test"))
+
+        
+       //执行过程：
+       //1.React解析组件标签，找到相应的组件
+       //2.发现组件是类定义的，随后new出来的类的实例，并通过该实例调用到原型上的render方法
+       //3.将render返回的虚拟DOM转化为真实的DOM,随后呈现在页面中
+
+
+       //复杂组件：有状态的
+       //简单组件：没有状态的
+       //组件的状态里面保存着数据 state
+    </script>
+</body>
+</html>

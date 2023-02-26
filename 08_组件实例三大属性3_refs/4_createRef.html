@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>回调函数形式的ref</title>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="test"></div>
+    <!-- 引入依赖 ,引入的时候，必须就按照这个步骤-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        // 创建组件
+        class Demo extends React.Component{
+            //通过API，创建React的容器，相当于对于回调函数创建了一个相应的API，省略了中间环节
+            //但是这个容器是专门专用的，所以每一个ref都需要创建这个
+            //该容器存储被ref所标识的节点
+            myRef = React.createRef();
+            myRef1 = React.createRef();
+
+
+            render(){
+                return (
+                    <div>
+                        <input ref={this.myRef} type="text" placeholder="点击按钮提示数据" />&nbsp;
+                        <button onClick = {this.btnOnClick}>点我提示左侧的数据</button>&nbsp;
+                        <input ref={this.myRef1} onBlur={this.inputBlur} type="text" placeholder="失去焦点弹出数据" />
+                    </div>
+                )
+                
+            }
+        
+
+            btnOnClick = ()=>{
+                alert(this.myRef.current.value)
+            }
+
+            inputBlur = ()=>{
+                alert(this.myRef1.current.value)
+            }
+        }
+
+        ReactDOM.render(<Demo/>,document.getElementById("test"))
+    </script>
+</body>
+</html>

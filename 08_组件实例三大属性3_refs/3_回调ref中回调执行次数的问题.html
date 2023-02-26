@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>回调函数形式的ref</title>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="test"></div>
+    <!-- 引入依赖 ,引入的时候，必须就按照这个步骤-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        // 创建组件
+        class Demo extends React.Component{
+            state = {isHot:true}
+
+            render(){
+                const {isHot} = this.state;
+                return (
+                    <div>
+                        <h1>今天天气很{isHot ? "炎热" : "凉爽"}</h1>
+                        {
+                            /* <input ref={(currentNode)=> {this.input1 = currentNode; console.log("@",currentNode)}} type="text" placeholder="点击按钮提示数据" />&nbsp; */
+                            // 内联形式的函数，当render再次调用渲染时，会先将该节点设置为null，然后在回调。如果只是首次加载，那么该内联函数就只会调用一次！
+                        }
+                        <input ref={this.saveInput} type="text" placeholder="点击按钮提示数据" />&nbsp;
+                        <button onClick = {this.btnOnClick}>点我提示左侧的数据</button>&nbsp;
+                        <button onClick = {this.changeWeather}>点我切换天气</button>
+                    </div>
+                )
+                
+            }
+
+            // 类绑定的形式，重新render不会再次回调该函数
+            saveInput = (currentNode)=>{
+                this.input1 = currentNode; 
+                console.log("@",currentNode)
+            }
+    
+            changeWeather = ()=>{
+                const {isHot} = this.state;
+                this.setState({
+                    isHot:!isHot 
+                })
+            }
+
+            btnOnClick = ()=>{
+                // 已将currentNode挂载到this上
+                const {input1} = this;
+                alert(input1.value)
+            }
+
+        }
+
+        ReactDOM.render(<Demo/>,document.getElementById("test"))
+    </script>
+</body>
+</html>

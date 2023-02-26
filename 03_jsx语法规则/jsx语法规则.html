@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello_react</title>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="test"></div>
+    <!-- 引入依赖 ,引入的时候，必须就按照这个步骤-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <!--这里使用了babel用来解析jsx语法-->
+    <script type="text/babel">
+        const myId = 'lizhenjie';
+        const myData = 'Hello,reaCt';
+
+        // 1.创建虚拟DOM
+        const VDOM = (
+            <div>
+                <h2 
+                    className="title" 
+                    id={myId.toLowerCase()}
+                >
+                    <span 
+                        style={
+                            {color:'red',fontSize: "38px"}
+                        }>
+                        {myData.toLowerCase()}
+                    </span>
+                </h2>
+
+                <h2 
+                    className="title" 
+                    id={myId.toUpperCase()}
+                >
+                    <span 
+                        style={
+                            {color:'red',fontSize: "38px"}
+                        }>
+                        {myData.toLowerCase()}
+                    </span>
+                </h2>
+
+                <input type="text"/>
+            </div>
+
+        )
+
+        // 2.渲染，如果有多个渲染同一个容器，后面的会将前面的覆盖掉
+        ReactDOM.render(VDOM,document.getElementById("test"));
+
+        /*
+        JS表达式：返回一个值，可以放在任何一个需要值的地方  a  a+b  demo(a)  arr.map() function text(){}
+        JS语句：if(){} for(){} while(){} swith(){} 不会返回一个值
+        */
+
+        //1.定义虚拟DOM，不能使用“”
+        //2.标签中混入JS表达式的时候使用{}
+        //3.样式的类名指定不要使用class，使用className
+        //4.内敛样式要使用style={{样式:"值"}}
+        //5.不能有多个根标签，只能有一个跟标签
+        //6.标签必须闭合
+        //7.如果小写字母开头，就将标签转化为html同名元素，如果html中无该标签对应的元素，就报错
+        // 如果是大写字母开头，react就去渲染对应的组件，如果没有就报错
+    </script>
+</body>
+</html>

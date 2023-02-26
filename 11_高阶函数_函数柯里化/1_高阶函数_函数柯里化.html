@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>高阶函数_函数柯里化</title>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="test"></div>
+    <!-- 引入依赖 ,引入的时候，必须就按照这个步骤-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        // 创建组件
+        class Login extends React.Component{
+            /*
+                高级函数：
+                1.如果函数的参数是函数
+                2.如果函数返回一个函数
+                函数的珂里化：
+                通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式
+            */
+
+
+            state = {
+                username:"",
+                password:""
+            }
+
+            saveFormData = (dataType)=>{
+                // 以下为事件的真是的回调,datatype为外部的参数
+                return (event)=>{
+                    this.setState({
+                        [dataType]:event.target.value
+                    })
+                }
+            }
+
+            hanleSubmit = (event)=>{
+                const {username, password} = this.state;
+                alert(`输入的用户名是：${username}，输入的密码是： ${password}`)
+            }
+
+            render(){
+                return (
+                    <form  onSubmit={this.hanleSubmit}>
+                            用户名：<input onChange={this.saveFormData("username")} type="text" name="username"/>
+                            密码：<input onChange={this.saveFormData("password")} type="password" name="password"/>
+                            <button>登录</button>
+                    </form>
+                )
+            }
+        }
+
+        ReactDOM.render(<Login/>,document.getElementById("test"))
+    </script>
+</body>
+</html>

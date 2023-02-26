@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>react生命周期钩子</title>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="test"></div>
+    <!-- 引入依赖 ,引入的时候，必须就按照这个步骤-->
+    <script type="text/javascript" src="../js/17.0.1/react.development.js"></script>
+    <script type="text/javascript" src="../js/17.0.1/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/17.0.1/babel.min.js"></script>
+
+    <!--这里使用了babel用来解析jsx语法-->
+    <script type="text/babel">
+        // 1.创建组件
+        class Count extends React.Component{
+            state = {
+                count:0
+            }
+
+            constructor(props){
+                console.log("Count-constructor")
+                super(props)
+                this.state = {count:0}
+            }
+
+            // 组件将要挂载的钩子
+            componentWillMount(){
+                console.log("componentWillMount")
+            }
+
+            // 组件挂载完毕的钩子
+            componentDidMount(){
+                console.log("componentDidMount")
+            }
+
+            // 组件将要卸载的钩子
+            componentWillUnmount(){
+                console.log("componentWillMount")
+            }
+
+            // 控制组件更新的阀门，默认返回值为true
+            shouldComponentUpdate(){
+                console.log("shouldComponentUpdate")
+                return true;
+            }
+
+            // 组件将要更新
+            componentWillUpdate(){
+                console.log("componentWillUpdate")
+            }
+
+            // 组件更新完毕
+            componentDidUpdate(){
+                console.log("componentDidUpdate")
+            }
+            
+            add = () =>{
+                const {count} = this.state;
+                this.setState({count:count+1})
+            }
+
+            death = () =>{
+                ReactDOM.unmountComponentAtNode(document.getElementById("test"));
+            }
+
+            force = ()=>{
+                this.forceUpdate();
+            }
+
+            render(){
+                console.log("render")
+                const {count} = this.state;
+                return (
+                    <div>
+                        <h2>当前求和为：{count}</h2>
+                        <button onClick={this.add}>点我+1</button>    
+                        <button onClick={this.death}>卸载组件</button>    
+                        <button onClick={this.force}>不更改任何状态中的数据，强制更新</button>    
+                    </div>
+                )
+            }
+        }
+        
+        // 2、渲染组件
+        ReactDOM.render(<Count/>,document.getElementById("test"))
+    </script>
+</body>
+</html>
